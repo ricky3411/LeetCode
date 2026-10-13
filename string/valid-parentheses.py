@@ -1,23 +1,24 @@
 class Solution:
     def isValid(self, s: str) -> bool:
 
+        if len(s) == 0:
+            return True 
+        
         if len(s) % 2 != 0:
             return False
 
-        map = {"(":")", "[":"]", "{":"}"}
-        stack = []
+        map = {"}":"{", ")":"(", "]":"["}
+        arr = []
 
         for c in s:
-            if c in map:
-                stack.append(c)
-            
+            if c == "{" or c == "(" or c == "[":
+                arr.append(c)
             else:
-                #closing bracket
-                if stack and c == map[stack[-1]]:
-                    stack.pop()
-                else:
+                if len(arr) == 0:
+                    return False
+                
+                top = arr.pop()
+                if map[c] != top:
                     return False
         
-        return len(stack) == 0 
-                
-        
+        return len(arr) == 0
